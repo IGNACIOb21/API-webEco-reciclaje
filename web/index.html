@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Configura tu cuenta — Rebin</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#f6f8f4;color:#253b2c;display:grid;place-items:center;min-height:100vh;margin:0}
+    main{background:white;padding:2rem;border-radius:14px;max-width:410px;width:calc(100% - 4rem);box-shadow:0 5px 24px #0001}
+    label{display:block;font-weight:600;margin-top:1rem} input,button{box-sizing:border-box;width:100%;padding:.8rem;margin-top:.4rem;font:inherit}
+    button{background:#2f5233;color:white;border:0;border-radius:6px;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+    #mensaje{line-height:1.5} small{color:#526158}
+  </style>
+</head>
+<body><main>
+  <h1>Configura tu cuenta</h1>
+  <p id="mensaje" role="status">Comprobando la invitación…</p>
+  <form id="recuperar" hidden>
+    <label for="correo">Correo de tu cuenta</label>
+    <input id="correo" type="email" autocomplete="email" required>
+    <button type="submit">Solicitar enlace nuevo</button>
+    <p><small>Recibirás un correo si la cuenta y la configuración permiten enviarlo.</small></p>
+  </form>
+  <form id="formulario" hidden>
+    <label for="clave">Nueva contraseña</label>
+    <input id="clave" type="password" autocomplete="new-password" required minlength="8">
+    <label for="confirmacion">Repite la contraseña</label>
+    <input id="confirmacion" type="password" autocomplete="new-password" required minlength="8">
+    <p><small>Usa al menos 8 caracteres, con mayúscula, minúscula, número y símbolo.</small></p>
+    <button type="submit">Guardar contraseña</button>
+  </form>
+  <script src="/publico/invitacion.js" defer></script>
+</main></body>
+</html>

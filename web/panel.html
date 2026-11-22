@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Puntos de reciclaje · Rebin</title>
+  <link rel="stylesheet" href="/panel.css">
+  <script src="/panel.js" defer></script>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand"><span class="logo" aria-hidden="true">♻</span> rebin <span class="hint">admin</span></div>
+    <div class="caption">GESTIÓN</div><div class="nav">◉ &nbsp; Puntos de reciclaje</div>
+    <p class="side-note">Tu espacio para organizar los puntos de reciclaje.</p>
+  </aside>
+  <main>
+    <div class="top"><span class="eyebrow">Panel de administración</span><span><span class="badge" id="conexion">Conectando…</span> <button type="button" class="button secondary" id="sesion" hidden>Iniciar sesión</button></span></div>
+    <div class="notice" id="aviso-entorno">Comprobando el entorno…</div>
+    <div class="title-row">
+      <div><div class="eyebrow">Gestión de la red</div><h1>Puntos de reciclaje</h1><p class="subtitle">Consulta y organiza los puntos de reciclaje.</p></div>
+      <button class="button" id="nuevo" type="button" disabled>+ &nbsp; Agregar punto</button>
+    </div>
+    <div id="mensaje" class="message" role="status" hidden></div>
+    <section class="cards" aria-label="Resumen de la página">
+      <div class="card"><div class="card-label">Puntos en esta página</div><div class="number" id="total">—</div><small>En esta página</small></div>
+      <div class="card"><div class="card-label">Operativos</div><div class="number" id="operativos">—</div><small>En esta página</small></div>
+      <div class="card"><div class="card-label">Desactivados</div><div class="number" id="fuera">—</div><small>En esta página</small></div>
+    </section>
+    <section class="content" aria-labelledby="directorio">
+      <div class="content-head"><div><h2 id="directorio">Directorio de puntos</h2><p>Datos consultados directamente a tu API local.</p></div><button class="icon-button" id="actualizar" type="button">Actualizar lista</button></div>
+      <div class="filters">
+        <input id="buscar" class="search" placeholder="Buscar en esta página" aria-label="Buscar punto en esta página">
+        <select id="estado" aria-label="Filtrar por estado"><option value="todos">Todos los estados</option><option value="operativo">Operativos</option><option value="fuera_servicio">Desactivados</option></select>
+      </div>
+      <div id="cargando" class="empty" role="status">Cargando puntos…</div>
+      <div class="table-wrap"><table><thead><tr><th>Punto</th><th>Comuna</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="filas"></tbody></table></div>
+      <div id="vacio" class="empty" hidden>No encontramos puntos con esos filtros.</div>
+      <div class="pagination"><span id="pagina">Página 1</span><div class="page-actions"><button type="button" class="button secondary" id="anterior" disabled>Anterior</button><button type="button" class="button secondary" id="siguiente" disabled>Siguiente</button></div></div>
+    </section>
+    <p class="footer">Rebin · Panel de administración</p>
+  </main>
+</div>
+<dialog id="dialogo" aria-labelledby="titulo-formulario">
+  <form id="formulario" class="modal">
+    <h2 id="titulo-formulario">Agregar punto</h2><p id="aviso-formulario">Completa los datos del punto.</p>
+    <label for="nombre">Nombre del punto</label><input id="nombre" required maxlength="100" placeholder="Ej. Punto Verde Norte">
+    <label for="direccion">Dirección</label><input id="direccion" required maxlength="200" placeholder="Ej. Avenida Principal 123">
+    <div class="grid"><div><label for="comuna">Comuna</label><input id="comuna" required maxlength="60" placeholder="Ej. Santiago"></div><div><label for="entidad">Entidad administradora</label><select id="entidad" required></select></div></div>
+    <div class="grid"><div><label for="latitud">Latitud</label><input id="latitud" type="number" required step="any" min="-90" max="90" placeholder="Ej. -33.45"></div><div><label for="longitud">Longitud</label><input id="longitud" type="number" required step="any" min="-180" max="180" placeholder="Ej. -70.65"></div></div>
+    <p class="hint">Las coordenadas indican la ubicación que tendría el punto en el mapa.</p>
+    <fieldset><legend>Materiales que recibe</legend><div id="materiales" class="checks"></div></fieldset>
+    <p class="error-text" id="error-formulario" role="alert"></p>
+    <div class="actions"><button type="button" class="button secondary" id="cancelar">Cancelar</button><button class="button" id="guardar" type="submit">Guardar punto</button></div>
+  </form>
+</dialog>
+<dialog id="dialogo-sesion" aria-labelledby="titulo-sesion">
+  <form id="formulario-sesion" class="modal">
+    <h2 id="titulo-sesion">Iniciar sesión</h2><p>Usa tu cuenta de administrador de Rebin.</p>
+    <label for="correo-sesion">Correo</label><input id="correo-sesion" type="email" autocomplete="username" required>
+    <label for="clave-sesion">Contraseña</label><input id="clave-sesion" type="password" autocomplete="current-password" required>
+    <p class="error-text" id="error-sesion" role="alert"></p>
+    <div class="actions"><button type="button" class="button secondary" id="cancelar-sesion">Cancelar</button><button type="submit" class="button">Entrar</button></div>
+  </form>
+</dialog>
+</body>
+</html>
