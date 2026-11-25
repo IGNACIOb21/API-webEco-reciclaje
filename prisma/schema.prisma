@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum rol_nombre {
+  ciudadano
+  administrador_entidad
+  operador_terreno
+  empresa_patrocinadora
+  administrador_plataforma
+}
+
+enum estado_operativo_punto {
+  operativo
+  en_mantencion
+  en_limpieza
+  cerrado
+  por_confirmar
+}
+
+model usuario {
+  id_usuario             String        @id @default(uuid()) @db.Uuid
+  alias                  String
+  email                  String?       @unique
+  password_hash          String?
+  activo                 Boolean       @default(true)
+  fecha_registro         DateTime      @default(now())
+  fecha_ultima_actividad DateTime      @default(now())
+  roles                  usuario_rol[]
+  sesiones               sesion[]
+}
+
+model rol {
+  id_rol      Int           @id @default(autoincrement())
+  nombre      rol_nombre    @unique
+  descripcion String?
+  usuarios    usuario_rol[]
+}
+
+model usuario_rol {
+  id_usuario                String  @db.Uuid
+  id_rol                    Int
+  // La clave foránea se añadirá cuando se confirme el modelo de entidad.
+  entidad_administradora_id Int?
+  usuario                   usuario @relation(fields: [id_usuario], references: [id_usuario])
+  rol                       rol     @relation(fields: [id_rol], references: [id_rol])
+
+  @@id([id_usuario, id_rol])
+}
+
+model sesion {
+  id               String   @id @default(uuid()) @db.Uuid
+  id_usuario       String   @db.Uuid
+  token_hash       String   @unique
+  device_id        String?
+  fecha_expiracion DateTime
+  revocado         Boolean  @default(false)
+  creado_en        DateTime @default(now())
+  usuario          usuario  @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@index([id_usuario])
+}
+
+model comuna {
+  id_comuna Int    @id @default(autoincrement())
+  nombre    String
+}
+
+model categoria_residuo {
+  id_categoria Int     @id @default(autoincrement())
+  codigo       String  @unique
+  nombre       String
+  descripcion  String?
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
